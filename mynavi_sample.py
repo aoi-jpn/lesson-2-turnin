@@ -34,11 +34,7 @@ def set_driver(driver_path, headless_flg):
 
 # main処理
 
-def find_table_target_word(th_elms, td_elms, target:str):
-    # tableのthからtargetの文字列を探し一致する行のtdを返す
-    for th_elm,td_elm in zip(th_elms,td_elms):
-        if th_elm.text == target:
-            return td_elm.text
+
 
 
 def main():
