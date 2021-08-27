@@ -35,8 +35,6 @@ def set_driver(driver_path, headless_flg):
 # main処理
 
 
-
-
 def main():
     search_keyword = "高収入"
     # driverを起動
@@ -62,22 +60,26 @@ def main():
     # ページ終了まで繰り返し取得
     # 検索結果の一番上の会社名を取得
     name_list = driver.find_elements_by_class_name("cassetteRecruit__name")
-    catch_list = driver.find_elements_by_class_name("cassetteRecruit__copy")
+    work_list = driver.find_elements_by_xpath("//table[@class='tableCondition']/tbody/tr[1]/td[1]")
+    place_list = driver.find_elements_by_xpath("//table[@class='tableCondition']/tbody/tr[3]/td[1]")
 
     # 空のDataFrame作成
     df = pd.DataFrame()
 
     # 1ページ分繰り返し
-    print(len(name_list),(catch_list))
-    for name,catch in zip(name_list,catch_list):
+    print(len(name_list),(work_list),(place_list))
+    for name,work,place in zip (name_list,work_list,place_list):
         print(name.text)
-        print(catch.text)
+        print(work.text)
+        print(place.text)
         # DataFrameに対して辞書形式でデータを追加する
         df = df.append(
             {"会社名": name.text, 
-             "キャッチコピー": catch.text,
-             "項目C": ""}, 
+             "仕事内容": work.text,
+             "勤務地": place.text}, 
             ignore_index=True)
+        
+        
 
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
