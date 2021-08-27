@@ -79,7 +79,6 @@ def main():
              "勤務地": place.text}, 
             ignore_index=True)
         
-        
 
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
