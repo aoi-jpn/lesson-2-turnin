@@ -58,33 +58,27 @@ def main():
     # 検索ボタンクリック
     driver.find_element_by_class_name("topSearch__button").click()
 
+        
+    # 空のDataFrame作成
+    df = pd.DataFrame()   
 
     # ページ終了まで繰り返し取得
     while True:
+
         # 検索結果の一番上の会社名を取得
         name_list = driver.find_elements_by_class_name("cassetteRecruit__name")
         status_list = driver.find_elements_by_class_name("labelEmploymentStatus")
         copy_list = driver.find_elements_by_class_name("cassetteRecruit__copy")
 
-        # 空のDataFrame作成
-        df = pd.DataFrame()
-
         # 1ページ分繰り返し
         for name,status,copy in zip (name_list,status_list,copy_list):
             try:
-                print(name.text)
-                print(status.text)
-                print(copy.text)
-                # DataFrameに対して辞書形式でデータを追加する
-                df = df.append(
-                    {"会社名": name.text, 
-                     "仕事内容": status.text,
-                     "勤務地": copy.text}, 
-                    ignore_index=True)
+              works = pd.Series([name.text, status.text, copy.text],['会社名', 'ステータス', 'キャッチコピー'])
+              df = df.append(works, ignore_index=True)
             except Exception as e:
                 print(e)
             else:
-                print('finish (no error)')
+                pass
 
         next_page = driver.find_elements_by_class_name("iconFont--arrowLeft")
         if len(next_page) >= 1:
@@ -93,9 +87,8 @@ def main():
         else:
             print("最終ページです。終了します。")
             break
-            
-        
-        
+
+    df.to_csv('output.csv', index=False)
 
 
 # 直接起動された場合はmain()を起動(モジュールとして呼び出された場合は起動しないようにするため)
